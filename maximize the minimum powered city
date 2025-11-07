@@ -1,0 +1,64 @@
+class Solution:
+    def maxPower(self, stations, r, k):
+        n = len(stations)
+        prefix = [0] * (n + 1)
+        for i in range(n):
+            prefix[i + 1] = prefix[i] + stations[i]
+        power = [0] * n
+        for i in range(n):
+            left = max(0, i - r)
+            right = min(n - 1, i + r)
+            power[i] = prefix[right + 1] - prefix[left]
+        def can(x):
+            added = [0] * n
+            curr_add = 0
+            remain = k
+            window = 0
+            for i in range(min(r, n)):
+                window += power[i]
+            curr_sum = 0
+            window_sum = 0
+            total = 0
+            window_add = 0
+            curr_sum = 0
+            extra = 0 
+            prefix_add = [0] * (n + 1)
+            window_sum = 0
+            curr = 0
+            window = 0
+            curr_sum = 0
+            curr_add = 0
+            sum_add = 0
+            curr_power = 0
+            total_add = 0
+            window_sum = 0
+            curr_sum = 0
+            add = [0] * n
+            extra = 0
+            curr = 0
+            total = 0
+            for i in range(n):
+                if i - r - 1 >= 0:
+                    extra -= add[i - r - 1]
+                if i + r < n:
+                    extra += add[i + r]
+                if power[i] + extra < x:
+                    need = x - (power[i] + extra)
+                    if need > remain:
+                        return False
+                    remain -= need
+                    add[min(n - 1, i + r)] += need
+                    extra += need
+            return True
+        left, right = 0, sum(stations) + k
+        ans = 0
+        while left <= right:
+            mid = (left + right) // 2
+            if can(mid):
+                ans = mid
+                left = mid + 1
+            else:
+                right = mid - 1
+        return ans
+
+ 
